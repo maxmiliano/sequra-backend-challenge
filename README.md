@@ -1,4 +1,4 @@
-ckend coding challenge
+# Backend coding challenge
 This is the coding challenge for people who applied to a backend developer position at SeQura. It's been designed to be a simplified version of the same problems we deal with.
 
 ## The challenge
