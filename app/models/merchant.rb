@@ -3,5 +3,5 @@ class Merchant < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true, email: true
-  validates
+  validates :cif, presence: true
 end

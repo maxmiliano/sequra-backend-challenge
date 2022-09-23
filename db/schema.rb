@@ -20,7 +20,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_23_125907) do
     t.string "cif", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["cif"], name: "index_merchants_on_cif", unique: true
     t.index ["email"], name: "index_merchants_on_email", unique: true
   end
 
@@ -42,7 +41,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_23_125907) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_shoppers_on_email", unique: true
-    t.index ["nif"], name: "index_shoppers_on_nif", unique: true
   end
 
   add_foreign_key "orders", "merchants"
