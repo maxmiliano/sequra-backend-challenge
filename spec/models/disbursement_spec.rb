@@ -44,7 +44,6 @@ RSpec.describe Disbursement, type: :model do
         end
   
         context 'with more than one order' do
-          
           let!(:order2) do
             create(
               :order,
@@ -65,7 +64,6 @@ RSpec.describe Disbursement, type: :model do
               amount: 60.00)
           end
 
-
           it 'should calculate right amounts for disbursement' do
           
             described_class.process_disbursements(time_now.year, time_now.strftime("%W").to_i)
@@ -73,8 +71,6 @@ RSpec.describe Disbursement, type: :model do
             expect(described_class.first.amount).to eq BigDecimal(exptected_ammount)
           end          
         end
-
       end
     end
-  
 end
