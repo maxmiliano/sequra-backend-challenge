@@ -25,7 +25,7 @@ RSpec.describe Disbursement, type: :model do
           :undisbursed,
           merchant: merchant,
           shopper: shopper,
-          completed_at: time_now,
+          completed_at: 2.days.ago,
           amount: 100.00)
 
       end
@@ -50,7 +50,7 @@ RSpec.describe Disbursement, type: :model do
               :undisbursed,
               merchant: merchant,
               shopper: shopper,
-              completed_at: time_now,
+              completed_at: 2.days.ago,
               amount: 40.00)
           end
 
@@ -60,13 +60,13 @@ RSpec.describe Disbursement, type: :model do
               :undisbursed,
               merchant: merchant,
               shopper: shopper,
-              completed_at: time_now,
+              completed_at: 2.days.ago,
               amount: 60.00)
           end
 
           it 'should calculate right amounts for disbursement' do
           
-            described_class.process_disbursements(time_now.year, time_now.strftime("%W").to_i)
+            described_class.process_disbursements(2.days.ago.year, 2.days.ago.strftime("%W").to_i)
             exptected_ammount = order.net_amount + order2.net_amount + order3.net_amount
             expect(described_class.first.amount).to eq BigDecimal(exptected_ammount)
           end          

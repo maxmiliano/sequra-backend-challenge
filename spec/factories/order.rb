@@ -1,11 +1,11 @@
 FactoryBot.define do
   factory :order do
-    amount { 100 }
+    amount { [10, 20, 60, 100, 350].sample }
     merchant { create(:merchant) }
     shopper { create(:shopper) }
 
     trait :completed do
-        completed_at { Time.now }
+        completed_at { 2.days.ago }
     end
 
     trait :incomplete do
@@ -13,7 +13,7 @@ FactoryBot.define do
     end
 
     trait :disbursed do
-      completed_at { Time.now }
+      completed_at { 2.days.ago }
       merchant { create(:merchant) }
       shopper { create(:shopper) }
       disbursement do 
