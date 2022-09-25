@@ -65,3 +65,62 @@ ID | MERCHANT ID | SHOPPER ID | AMOUNT | CREATED AT           | COMPLETED AT
 
 **HAPPY CODING!!**
 
+# Solution
+
+## Stack
+* Ruby 3.1.2
+* Rails 7.0.3
+* RSpec
+* Postgres
+
+## Summary
+* Merchants, Shoppers and Orders models were modeled with exactly same attributes as described on the Challenge Instructions and the provided data
+* The Challenge didn't mention that CIF and NIF must be unique, so I decided not to validate Merchant's CIF and Shopper's NIF uniquenes. Also, there were a few entries in the attached data that share same CIFs or NIFs.
+* Used CSV parsing to seed the database initial data from the provided files. Decided to add headers to the csv files to make it easier to import using `row.to_hash`.
+* `Disbursement` model was modeled to be associated with multiple orders that shared the same year and week number.
+* The logic to create disbursements, associate them with order and calculate the total amount for each disbursement was implemented as class methods in the Disbursement model itself.
+* Created a `ProcessDisbursementJob` to call the `process_disbursements` method from Disbursement.
+
+## Instructions
+### Setup
+Pre-requisites: Ruby >= 3.1.2, Rails >= 7.0.3
+```
+bundle install
+bundle exec rake db:setup 
+```
+
+### Running the server
+`rails s`
+
+### Running the console
+`rails c`
+
+To process disbursements from console run:
+`Disbursement.process_disbursements(2018, 35)`
+Default values are current year and current week.
+
+### Accessing the API endpoint
+Considering the server is running in the default development enviorement, the disbursement action will be abailable at:
+`http://localhost:3000/api/v1/disbursements`
+
+From CLI you can use the command below:
+`curl -X GET -G 'http://localhost:3000/api/v1/disbursements' -d 'merchant_id=7&year=2022&week=37'`
+Params allowed: 
+* merchant_id (Integer) id of the merchant
+* year (Integer): year of the disbursement 
+* week (Integer): week of the disbursement
+All params are optional. If no param is informed, all processed disbursements will be returned.
+Only created disbursements are returned. This endopoint does not start the disbursment processment. 
+
+### Running the tests
+`bundle exec rspec`
+
+## Future improvements
+* Create more test cases
+* Add more logging to the disbusement process
+* Add a background service library to process Background Job. Considering to use Sidekiq with Redis.
+* Dockerize the project to streamline development
+* Refactor Disbursement logic, maybe moving it from the Disbursement model to a Service class.
+* Add `status` or a `state_machine` to Disbursement, to deal with the current state of the Disbursement (such as pending, calculating, ready to pay, archived, etc).
+* Implement authentication logic for accessing the API
+* May not be in the scope of the Challenge, but designing a Fee class would make possible future improvments such as allowing to have different fees through time, during hollyday sales and/or associated to special Merchants.
