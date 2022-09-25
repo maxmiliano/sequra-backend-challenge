@@ -105,6 +105,7 @@ Considering the server is running in the default development enviorement, the di
 
 From CLI you can use the command below:
 `curl -X GET -G 'http://localhost:3000/api/v1/disbursements' -d 'merchant_id=7&year=2022&week=37'`
+
 Params allowed: 
 * merchant_id (Integer) id of the merchant
 * year (Integer): year of the disbursement 
