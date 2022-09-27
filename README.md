@@ -111,7 +111,7 @@ Params allowed:
 * year (Integer): year of the disbursement 
 * week (Integer): week of the disbursement
 All params are optional. If no param is informed, all processed disbursements will be returned.
-Only created disbursements are returned. This endopoint does not start the disbursment processment. 
+Only created disbursements are returned. This endpoint does not start the disbursment processment.
 
 ### Running the tests
 `bundle exec rspec`
@@ -120,6 +120,7 @@ Only created disbursements are returned. This endopoint does not start the disbu
 * Create more test cases
 * Add more logging to the disbusement process
 * Add a background service library to process Background Job. Considering to use Sidekiq with Redis.
+* Add a scheduling service to start processment of the past week every Monday.
 * Dockerize the project to streamline development
 * Refactor Disbursement logic, maybe moving it from the Disbursement model to a Service class.
 * Add `status` or a `state_machine` to Disbursement, to deal with the current state of the Disbursement (such as pending, calculating, ready to pay, archived, etc).
