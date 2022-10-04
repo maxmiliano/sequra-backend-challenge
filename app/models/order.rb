@@ -6,7 +6,7 @@ class Order < ApplicationRecord
   scope :completed, -> { where.not(completed_at: nil) }
   scope :disbursed, -> { where.not(disbursement_id: nil) }
   scope :undisbursed, -> { where(disbursement_id: nil) }
-  scope :was_completed_in, -> (year, week) { where(completed_at: Date.commercial(year, week).beginning_of_week..Date.commercial(year, week).end_of_week) }
+  scope :was_completed_in, -> (year, week) { where(completed_at: Date.commercial(year, week).beginning_of_week.beginning_of_day..Date.commercial(year, week).end_of_week.end_of_day) }
 
   validates :merchant, presence: true
   validates :shopper, presence: true

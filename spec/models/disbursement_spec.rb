@@ -16,7 +16,9 @@ RSpec.describe Disbursement, type: :model do
   
     describe 'class methods' do
 
-      let(:time_now) { Time.now }
+      let(:first_day_of_week) { Date.commercial(2022,38, 1) }
+      let(:last_day_of_week) { Date.commercial(2022, 38, 7) }
+
       let(:merchant) { create(:merchant) }
       let(:shopper) { create(:shopper)}
       let!(:order) do
@@ -25,7 +27,7 @@ RSpec.describe Disbursement, type: :model do
           :undisbursed,
           merchant: merchant,
           shopper: shopper,
-          completed_at: 2.days.ago,
+          completed_at: first_day_of_week,
           amount: 100.00)
 
       end
@@ -35,7 +37,7 @@ RSpec.describe Disbursement, type: :model do
           expect do 
 
             expect(order.disbursement).to be_nil
-            described_class.process_disbursements(time_now.year, time_now.strftime("%W").to_i)
+            described_class.process_disbursements(2022, 38)
             order.reload
             expect(order.disbursement).not_to be_nil
             expect(order.disbursement.orders.first).to eq(order)
@@ -50,7 +52,7 @@ RSpec.describe Disbursement, type: :model do
               :undisbursed,
               merchant: merchant,
               shopper: shopper,
-              completed_at: 2.days.ago,
+              completed_at: first_day_of_week,
               amount: 40.00)
           end
 
@@ -60,13 +62,13 @@ RSpec.describe Disbursement, type: :model do
               :undisbursed,
               merchant: merchant,
               shopper: shopper,
-              completed_at: 2.days.ago,
+              completed_at: last_day_of_week,
               amount: 60.00)
           end
 
           it 'should calculate right amounts for disbursement' do
           
-            described_class.process_disbursements(2.days.ago.year, 2.days.ago.strftime("%W").to_i)
+            described_class.process_disbursements(2022, 38)
             exptected_ammount = order.net_amount + order2.net_amount + order3.net_amount
             expect(described_class.first.amount).to eq BigDecimal(exptected_ammount)
           end          
