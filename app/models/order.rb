@@ -28,13 +28,15 @@ class Order < ApplicationRecord
   end
 
   def fee
-    if amount < TIER_1_LIMIT
-      return TIER_1_FEE
-    elsif amount < TIER_2_LIMIT
-      return TIER_2_FEE
-    else
-      return TIER_3_FEE
+
+    merchant
+      .merchant_fees
+      .select{|mf| !mf.tier_limit.nil?}
+      .sort_by(&:tier_limit).each do |tier|
+      return tier.tier_fee if amount < tier.tier_limit
     end
+
+    return merchant.merchant_fees.where(tier_limit: nil).tier_fee
   end
 
 end

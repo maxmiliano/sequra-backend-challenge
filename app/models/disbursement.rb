@@ -33,8 +33,8 @@ class Disbursement < ApplicationRecord
 
     # This method will calculate the amount for each disbursement
     def calculate_amounts_for_week(year = Time.current.year, week = Time.current.strftime("%W").to_i)
-      Disbursement.where(year: year, week: week).each do |disbursement|
-        disbursement_sum = disbursement.orders.inject(0.0) { |sum, order| sum + order.net_amount }
+      Disbursement.where(year: year, week: week).includes(:orders).each do |disbursement|
+        disbursement_sum = disbursement.orders.inject(0.0) { |sum, order| sum + disbursement.merchant.net_amount(order.amount) }
         disbursement.update(amount: disbursement_sum)
       end
     end

@@ -20,6 +20,28 @@ RSpec.describe Disbursement, type: :model do
       let(:last_day_of_week) { Date.commercial(2022, 38, 7) }
 
       let(:merchant) { create(:merchant) }
+      let!(:merchant_fee_tier_1) {
+        create(:merchant_fee,
+               merchant: merchant,
+               tier_limit: 50,
+               tier_fee: 0.01
+              )
+      }
+      let!(:merchant_fee_tier_2) {
+        create(:merchant_fee,
+               merchant: merchant,
+               tier_limit: 300,
+               tier_fee: 0.0095
+              )
+      }
+      let!(:merchant_fee_tier_3) {
+        create(:merchant_fee,
+               merchant: merchant,
+               tier_limit: nil,
+               tier_fee: 0.0085
+              )
+      }
+
       let(:shopper) { create(:shopper)}
       let!(:order) do
         create(
