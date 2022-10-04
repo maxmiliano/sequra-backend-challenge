@@ -16,6 +16,8 @@ CSV.read(Rails.root.join('lib', 'seeds', 'merchants.csv'), headers: true).each d
 
 end
 
+ActiveRecord::Base.connection.reset_pk_sequence!('merchants')
+
 puts "Seeding Shoppers"
 CSV.read(Rails.root.join('lib', 'seeds', 'shoppers.csv'), headers: true).each do |row|
   shopper = Shopper.new(row.to_hash)
@@ -25,6 +27,8 @@ CSV.read(Rails.root.join('lib', 'seeds', 'shoppers.csv'), headers: true).each do
     p shopper.errors.full_messages
   end
 end
+
+ActiveRecord::Base.connection.reset_pk_sequence!('shoppers')
 
 puts "Seeding Orders"
 CSV.read(Rails.root.join('lib', 'seeds', 'orders.csv'), headers: true).each do |row|
@@ -36,4 +40,5 @@ CSV.read(Rails.root.join('lib', 'seeds', 'orders.csv'), headers: true).each do |
   end
 end
 
+ActiveRecord::Base.connection.reset_pk_sequence!('orders')
 
